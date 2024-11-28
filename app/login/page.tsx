@@ -8,6 +8,7 @@ import { createAccount } from "./action";
 import Alert from "@/components/alert";
 import { EnvelopeIcon, UserIcon, KeyIcon } from "@heroicons/react/24/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
+import "@/lib/db";
 
 export default function LogIn() {
   const [state, dispatch] = useActionState(createAccount, null);
