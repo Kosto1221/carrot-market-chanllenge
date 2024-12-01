@@ -13,6 +13,7 @@ model User {
   username String @unique
   email String @unique
   bio String?
+  avatar String? 
   password String
   Tweets Tweet[]
   Likes Like[]

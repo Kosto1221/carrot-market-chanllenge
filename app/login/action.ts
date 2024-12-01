@@ -1,36 +1,69 @@
 "use server";
 
 import { z } from "zod";
+import bcrypt from "bcrypt";
+import db from "@/lib/db";
+import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const passwordRegex = new RegExp(/.*\d.*/);
 
 const checkEmail = (email: string) => email.includes("@zod.com");
 
+const checkEmailExists = async (email: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return Boolean(user);
+};
+
 const formSchema = z.object({
-  email: z.string().refine(checkEmail, "Only @zod.com emails are allowed"),
-  username: z
+  email: z
     .string()
-    .min(5, "Username should be at least 5 characters long")
-    .max(15)
-    .trim(),
-  password: z
-    .string()
-    .min(10, "Password should be at least 10 characters long")
-    .trim()
-    .regex(
-      passwordRegex,
-      "Password should contain at least one number (0123456789)"
-    ),
+    .refine(checkEmail, "Only @zod.com emails are allowed")
+    .refine(checkEmailExists, "An account with this email does not exist"),
+  password: z.string().trim(),
 });
 
-export async function createAccount(prevState: any, formData: FormData) {
+export async function logIn(prevState: any, formData: FormData) {
   const data = {
     email: formData.get("email"),
-    username: formData.get("username"),
     password: formData.get("password"),
   };
-  const result = formSchema.safeParse(data);
+  const result = await formSchema.spa(data);
   if (!result.success) {
     return result.error.flatten();
+  } else {
+    const user = await db.user.findUnique({
+      where: {
+        email: result.data.email,
+      },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+    const ok = await bcrypt.compare(
+      result.data.password,
+      user!.password ?? "xxxx"
+    );
+    if (ok) {
+      const session = await getSession();
+      session.id = user!.id;
+      await session.save();
+      redirect("/profile");
+    } else {
+      return {
+        fieldErrors: {
+          password: ["Wrong password."],
+          email: [],
+        },
+      };
+    }
   }
 }
