@@ -1,14 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useActionState } from "react";
 import { logIn } from "./action";
-import Alert from "@/components/alert";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
-import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 
 export default function LogIn() {
   const [state, dispatch] = useActionState(logIn, null);

@@ -25,7 +25,7 @@ export default async function Profile() {
     "use server";
     const session = await getSession();
     await session.destroy();
-    redirect("/");
+    redirect("/welcome");
   };
   return (
     <div className="flex flex-col gap-3 w-full h-screen">
