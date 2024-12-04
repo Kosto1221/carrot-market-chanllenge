@@ -83,7 +83,7 @@ export default async function TweetDetail({
           <Image
             className="object-cover"
             fill
-            src={tweet.photo}
+            src={`${tweet.photo}/public`}
             alt={tweet.title}
           />
         </div>

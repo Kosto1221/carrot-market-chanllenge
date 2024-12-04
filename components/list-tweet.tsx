@@ -69,7 +69,12 @@ export default function ListTweet({
       </div>
       {photo ? (
         <div className="relative w-28 h-full rounded-md overflow-hidden border border-neutral-100 ">
-          <Image fill src={photo} className="object-cover" alt={title} />
+          <Image
+            fill
+            src={`${photo}/avatar`}
+            className="object-cover"
+            alt={title}
+          />
         </div>
       ) : null}
     </Link>
