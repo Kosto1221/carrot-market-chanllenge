@@ -95,7 +95,6 @@ export default async function TweetDetail({
 }: {
   params: { id: string };
 }) {
-  const unwrappedParams = await params;
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();
