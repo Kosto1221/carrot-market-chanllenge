@@ -43,7 +43,7 @@ export async function dislikeTweet(tweetId: number) {
 
 const payloadSchema = z.string().min(10).max(2000);
 
-export async function respondTweet(state: any, formData: FormData) {
+export async function respondTweet(state: unknown, formData: FormData) {
   const payload = formData.get("payload");
   const tweetId = formData.get("tweetId");
 

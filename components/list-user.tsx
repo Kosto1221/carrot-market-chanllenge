@@ -8,9 +8,9 @@ interface ListUserProps {
   avatar: string | null;
   created_at: Date;
   username: string;
-  tweets: any;
-  subscriptions: any;
-  subscribers: any;
+  tweets: object[];
+  subscriptions: object[];
+  subscribers: object[];
 }
 
 export default function ListUser({

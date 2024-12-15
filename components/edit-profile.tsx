@@ -41,7 +41,7 @@ export default function EditProfile({
       setImageId(id);
     }
   };
-  const interceptAction = async (_: any, formData: FormData) => {
+  const interceptAction = async (_: unknown, formData: FormData) => {
     const file = formData.get("avatar");
     if (!file) {
       return;

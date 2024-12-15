@@ -10,14 +10,6 @@ import { unstable_cache as nextCache } from "next/cache";
 import LikeButton from "@/components/like-button";
 import Header from "@/components/header";
 
-async function getIsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
-  return false;
-}
-
 // async function onReturn() {
 //   "use server";
 //   redirect("/");

@@ -7,6 +7,14 @@ import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
 import bcrypt from "bcrypt";
 
+interface UserUpdateData {
+  username: string;
+  avatar: string | null;
+  email: string;
+  bio: string | null;
+  password: string;
+}
+
 const passwordRegex = new RegExp(/.*\d.*/);
 
 const checkEmail = (email: string) => email.includes("@zod.com");
@@ -118,7 +126,7 @@ export async function editUser(userId: number, formData: FormData) {
   } else {
     const session = await getSession();
     if (session.id) {
-      const updateData: any = {};
+      const updateData: Partial<UserUpdateData> = {};
 
       if (result.data.username) updateData.username = result.data.username;
       if (result.data.avatar) updateData.avatar = result.data.avatar;

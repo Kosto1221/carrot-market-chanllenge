@@ -17,7 +17,7 @@ const tweetSchema = z.object({
   }),
 });
 
-export async function uploadTweet(_: any, formData: FormData) {
+export async function uploadTweet(_: unknown, formData: FormData) {
   const data = {
     photo: formData.get("photo"),
     title: formData.get("title"),

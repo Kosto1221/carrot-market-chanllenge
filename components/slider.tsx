@@ -21,7 +21,7 @@ const Slider = () => {
     return () => clearInterval(interval);
   }, [isPaused]);
 
-  const handleDotClick = (index: any) => {
+  const handleDotClick = (index: number) => {
     setCurrentIndex(index);
   };
 
