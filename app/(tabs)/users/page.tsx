@@ -1,16 +1,6 @@
 import Header from "@/components/header";
-import TweetList from "@/components/tweet-list";
 import db from "@/lib/db";
-import {
-  BookmarkIcon,
-  MagnifyingGlassCircleIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import {
-  Bars2Icon,
-  Bars3Icon,
-  ServerStackIcon,
-} from "@heroicons/react/24/solid";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { Prisma } from "@prisma/client";
 import UserList from "@/components/user-list";
 

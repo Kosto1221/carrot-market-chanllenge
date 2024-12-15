@@ -1,7 +1,5 @@
 import Link from "next/link";
 import "@/lib/db";
-import Image from "next/image";
-import Slider from "@/components/slider";
 
 export default function Home() {
   return (

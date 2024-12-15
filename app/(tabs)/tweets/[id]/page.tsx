@@ -1,15 +1,14 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { ChevronLeftIcon, UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
-import { BellIcon, BookmarkIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { redirect } from "next/navigation";
 import ResponseModal from "@/components/response-modal";
 import { unstable_cache as nextCache } from "next/cache";
 import LikeButton from "@/components/like-button";
-import { useRouter } from "next/router";
 import Header from "@/components/header";
 
 async function getIsOwner(userId: number) {

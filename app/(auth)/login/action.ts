@@ -6,8 +6,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
-const passwordRegex = new RegExp(/.*\d.*/);
-
 const checkEmail = (email: string) => email.includes("@zod.com");
 
 const checkEmailExists = async (email: string) => {

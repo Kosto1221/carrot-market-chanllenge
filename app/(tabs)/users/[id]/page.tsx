@@ -1,17 +1,12 @@
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
-import getSession from "@/lib/session";
-import {
-  ArrowRightStartOnRectangleIcon,
-  UserIcon,
-  PowerIcon,
-} from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import getUser from "./actions";
 import Header from "@/components/header";
 import TweetList from "@/components/tweet-list";
-import { Cog8ToothIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { notFound } from "next/navigation";
 
 async function getInitialTweets(userId?: number, query?: string) {

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useActionState } from "react";

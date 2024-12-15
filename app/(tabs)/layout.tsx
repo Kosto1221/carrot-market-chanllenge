@@ -1,4 +1,3 @@
-import TabBar from "@/components/tab-bar";
 import TabBarAdvanced from "@/components/tab-bar-advanced";
 import React from "react";
 

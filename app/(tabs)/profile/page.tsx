@@ -4,14 +4,13 @@ import getSession from "@/lib/session";
 import {
   ArrowRightStartOnRectangleIcon,
   UserIcon,
-  PowerIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import getUser from "./actions";
 import Header from "@/components/header";
 import TweetList from "@/components/tweet-list";
-import { Cog8ToothIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 async function getInitialTweets(userId?: number) {
   const tweets = await db.tweet.findMany({
