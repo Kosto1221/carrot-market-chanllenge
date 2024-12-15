@@ -55,16 +55,25 @@ export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 export default async function Profile() {
   const user = await getUser();
   const initialTweets = await getInitialTweets(user.id);
+  const firstTweet = initialTweets[0] || {};
+  const userStats = firstTweet.user?._count || {
+    likes: 0,
+    subscriptions: 0,
+    subscribers: 0,
+  };
+
   const logOut = async () => {
     "use server";
     const session = await getSession();
     session.destroy();
     redirect("/welcome");
   };
+
   const GoEdit = async () => {
     "use server";
     redirect(`/users/${user.id}/edit`);
   };
+
   return (
     <div className="min-h-screen pb-16 bg-neutral-50 bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
       <Header text="Profile">
@@ -93,11 +102,9 @@ export default async function Profile() {
             <div className="text-2xl font-semibold">{user.username}</div>
             <div>{user.email}</div>
             <div className="space-x-2 text-xs">
-              <span>likes ({initialTweets[0].user._count.likes})</span>
-              <span>
-                following ({initialTweets[0].user._count.subscriptions})
-              </span>
-              <span>follower ({initialTweets[0].user._count.subscribers})</span>
+              <span>likes ({userStats.likes})</span>
+              <span>following ({userStats.subscriptions})</span>
+              <span>follower ({userStats.subscribers})</span>
             </div>
           </div>
         </div>
