@@ -29,7 +29,7 @@ export default function AddTweet() {
       setImageId(id);
     }
   };
-  const interceptAction = async (_: any, formData: FormData) => {
+  const interceptAction = async (_: unknown, formData: FormData) => {
     const file = formData.get("photo");
     if (!file) {
       return;
