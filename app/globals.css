@@ -16,6 +16,15 @@
 
 @layer components {
   .primary-btn {
-    @apply w-full bg-orange-500 text-white font-medium rounded-full text-center hover:bg-orange-400 transition-colors;
+    @apply w-full bg-yellow-400 text-black font-medium rounded-full text-center hover:bg-orange-400 transition-colors;
   }
 }
+
+/* ::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */

@@ -1,23 +1,18 @@
 "use client";
 
-import { InitialTweets } from "@/app/(tabs)/page";
-import ListTweet from "./list-tweet";
+import { InitialUsers } from "@/app/(tabs)/users/page";
 import { useEffect, useRef, useState } from "react";
-import { getMoreTweets } from "@/app/(tabs)/actions";
+import { getMoreUsers } from "@/app/(tabs)/users/actions";
+import ListUser from "./list-user";
 import { Spinner } from "./spinner";
 
-interface TweetListProps {
-  initialTweets: InitialTweets;
+interface UserListProps {
+  initialUsers: InitialUsers;
   userId?: number;
-  query?: string;
 }
 
-export default function TweetList({
-  initialTweets,
-  userId,
-  query,
-}: TweetListProps) {
-  const [tweets, setTweets] = useState(initialTweets);
+export default function UserList({ initialUsers }: UserListProps) {
+  const [users, setUsers] = useState(initialUsers);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
@@ -32,10 +27,10 @@ export default function TweetList({
         if (element.isIntersecting && trigger.current) {
           observer.unobserve(trigger.current);
           setIsLoading(true);
-          const newTweets = await getMoreTweets(page + 1, userId, query);
-          if (newTweets.length !== 0) {
+          const newusers = await getMoreUsers(page + 1);
+          if (newusers.length !== 0) {
             setPage((prev) => prev + 1);
-            setTweets((prev) => [...prev, ...newTweets]);
+            setUsers((prev) => [...prev, ...newusers]);
           } else {
             setIsLastPage(true);
           }
@@ -52,11 +47,11 @@ export default function TweetList({
     return () => {
       observer.disconnect();
     };
-  }, [page, query]);
+  }, [page]);
   return (
-    <div className="flex flex-col gap-3">
-      {tweets.map((tweet) => (
-        <ListTweet key={tweet.id} {...tweet} />
+    <div className="p-5 flex flex-col gap-3 ">
+      {users.map((tweet) => (
+        <ListUser key={tweet.id} {...tweet} />
       ))}
       {!isLastPage ? (
         <span

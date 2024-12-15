@@ -12,10 +12,21 @@ import getUser from "./actions";
 import Header from "@/components/header";
 import TweetList from "@/components/tweet-list";
 import { Cog8ToothIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { notFound } from "next/navigation";
 
-async function getInitialTweets(userId?: number) {
+async function getInitialTweets(userId?: number, query?: string) {
   const tweets = await db.tweet.findMany({
-    where: userId ? { userId } : {},
+    where: {
+      ...(userId ? { userId } : {}),
+      ...(query
+        ? {
+            OR: [
+              { title: { contains: query } },
+              { description: { contains: query } },
+            ],
+          }
+        : {}),
+    },
     select: {
       description: true,
       photo: true,
@@ -27,11 +38,12 @@ async function getInitialTweets(userId?: number) {
         select: {
           username: true,
           avatar: true,
+          email: true,
           _count: {
             select: {
-              subscriptions: true,
-              subscribers: true,
               likes: true,
+              subscribers: true,
+              subscriptions: true,
             },
           },
         },
@@ -53,32 +65,29 @@ async function getInitialTweets(userId?: number) {
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
-export default async function Profile() {
+export default async function Profile({ params }: { params: { id: number } }) {
+  const id = Number(params.id);
+  if (isNaN(id)) {
+    return notFound();
+  }
   const user = await getUser();
-  const initialTweets = await getInitialTweets(user.id);
-  const logOut = async () => {
-    "use server";
-    const session = await getSession();
-    session.destroy();
-    redirect("/welcome");
-  };
+  const initialTweets = await getInitialTweets(id);
   const GoEdit = async () => {
     "use server";
     redirect(`/users/${user.id}/edit`);
   };
   return (
-    <div className="min-h-screen pb-16 bg-neutral-50 bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
-      <Header text="Profile">
-        <button onClick={GoEdit}>
-          <PencilSquareIcon className="h-7 w-7" />
-        </button>
-        <button onClick={logOut}>
-          <ArrowRightStartOnRectangleIcon className="h-7 w-7" />
-        </button>
+    <div className="min-h-screen pb-16 bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
+      <Header>
+        {user.id == id ? (
+          <button onClick={GoEdit}>
+            <PencilSquareIcon className="h-7 w-7" />
+          </button>
+        ) : null}
       </Header>
       <div className="flex flex-col pt-20 p-5 gap-3 h-full">
         <div className="flex gap-4">
-          <div className="relative bg-white w-28 aspect-[1/1.2] rounded-lg overflow-hidden flex items-center justify-center  border-neutral-100 box-content  shadow-sm">
+          <div className="relative bg-amber-50 w-28 aspect-[1/1.2] rounded-lg overflow-hidden flex items-center justify-center  border-neutral-100 box-content  shadow-sm">
             {user.avatar ? (
               <Image
                 src={`${user.avatar}/public`}
@@ -91,8 +100,10 @@ export default async function Profile() {
             )}
           </div>
           <div className="flex flex-col justify-evenly">
-            <div className="text-2xl font-semibold">{user.username}</div>
-            <div>{user.email}</div>
+            <div className="text-2xl font-semibold">
+              {initialTweets[0].user.username}
+            </div>
+            <div> {initialTweets[0].user.email}</div>
             <div className="space-x-2 text-xs">
               <span>likes ({initialTweets[0].user._count.likes})</span>
               <span>
@@ -108,7 +119,7 @@ export default async function Profile() {
           </div>
         ) : null}
         <div className="">
-          <TweetList initialTweets={initialTweets} userId={user.id} />
+          <TweetList initialTweets={initialTweets} userId={id} />
         </div>
       </div>
     </div>

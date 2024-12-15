@@ -2,40 +2,60 @@
 
 import {
   HomeIcon as SolidHomeIcon,
-  NewspaperIcon as SolidNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as SolidChatBubbleOvalLeftEllipsisIcon,
-  VideoCameraIcon as SolidVideoCameraIcon,
   UserIcon as SolidUserIcon,
+  PlusIcon as SolidPlusIcon,
+  FolderPlusIcon as SolidFolderPlusIcon,
+  GlobeAltIcon as SolidGlobeAltIcon,
+  GlobeAsiaAustraliaIcon as SolidGlobeAsiaAustraliaIcon,
+  UserGroupIcon as SolidUserGroupIcon,
+  UsersIcon as SolidUsersIcon,
 } from "@heroicons/react/24/solid";
 import {
+  UserIcon,
   HomeIcon as OutlineHomeIcon,
-  NewspaperIcon as OutlineNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as OutlineChatBubbleOvalLeftEllipsisIcon,
-  VideoCameraIcon as OutlineVideoCameraIcon,
   UserIcon as OutlineUserIcon,
+  PlusIcon as OutlinePlusIcon,
+  FolderPlusIcon as OutlineFolderPlusIcon,
+  GlobeAltIcon as OutlineGlobeAltIcon,
+  GlobeAsiaAustraliaIcon as OutlineGlobeAsiaAustraliaIcon,
+  UserGroupIcon as OutlineUserGroupIcon,
+  UsersIcon as OutlineUsersIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
-export default function TabBar() {
+interface TabBarProps {
+  avatar: string | null;
+  username: string;
+}
+
+export default function TabBar({ avatar, username }: TabBarProps) {
   const pathname = usePathname();
   return (
-    <div className="fixed bottom-0 w-full mx-auto max-w-xl  grid grid-cols-5 border-neutral-200 border-t px-5 py-3 *:text-neutral-500 bg-neutral-50">
+    <div className="fixed bottom-0 w-full mx-auto max-w-xl  grid grid-cols-5   py-5 *:text-amber-50 bg-amber-500">
       <Link href="/" className="flex flex-col items-center gap-px">
         {pathname === "/" ? (
-          <SolidHomeIcon className="w-7 h-7" />
+          <SolidGlobeAsiaAustraliaIcon className="w-7 h-7" />
         ) : (
-          <OutlineHomeIcon className="w-7 h-7" />
+          <OutlineGlobeAsiaAustraliaIcon className="w-7 h-7" />
         )}
-        <span className="text-sm">Tweets</span>
       </Link>
-      <Link href="/life" className="flex flex-col items-center gap-px">
-        {pathname === "/life" ? (
-          <SolidNewspaperIcon className="w-7 h-7" />
+      <Link href="/users" className="flex flex-col items-center gap-px">
+        {pathname === "/users" ? (
+          <SolidUserGroupIcon className="w-7 h-7" />
         ) : (
-          <OutlineNewspaperIcon className="w-7 h-7" />
+          <OutlineUserGroupIcon className="w-7 h-7" />
         )}
-        <span className="text-sm">Life</span>
+      </Link>
+      <Link href="/tweets/add" className="flex flex-col items-center gap-px">
+        {pathname === "/tweets/add" ? (
+          <SolidPlusIcon className="w-7 h-7" />
+        ) : (
+          <OutlinePlusIcon className="w-7 h-7" />
+        )}
       </Link>
       <Link href="/chats" className="flex flex-col items-center gap-px">
         {pathname === "/chats" ? (
@@ -43,23 +63,19 @@ export default function TabBar() {
         ) : (
           <OutlineChatBubbleOvalLeftEllipsisIcon className="w-7 h-7" />
         )}
-        <span className="text-sm">Chats</span>
-      </Link>
-      <Link href="/live" className="flex flex-col items-center gap-px">
-        {pathname === "/live" ? (
-          <SolidVideoCameraIcon className="w-7 h-7" />
-        ) : (
-          <OutlineVideoCameraIcon className="w-7 h-7" />
-        )}
-        <span className="text-sm">Live</span>
       </Link>
       <Link href="/profile" className="flex flex-col items-center gap-px">
-        {pathname === "/profile" ? (
-          <SolidUserIcon className="w-7 h-7" />
-        ) : (
-          <OutlineUserIcon className="w-7 h-7" />
-        )}
-        <span className="text-sm">me</span>
+        <div
+          className={`relative w-7 h-7 rounded-full overflow-hidden  flex justify-center items-center ${
+            pathname === "/profile" ? "border-2 border-yellow-400" : ""
+          }`}
+        >
+          {avatar !== null ? (
+            <Image src={`${avatar}/avatar`} alt={username} fill />
+          ) : (
+            <UserIcon className="size-7 m-auto text-gray-500" />
+          )}
+        </div>
       </Link>
     </div>
   );

@@ -1,11 +1,12 @@
 import TabBar from "@/components/tab-bar";
+import TabBarAdvanced from "@/components/tab-bar-advanced";
 import React from "react";
 
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div className="relative">
       {children}
-      <TabBar />
+      <TabBarAdvanced />
     </div>
   );
 }

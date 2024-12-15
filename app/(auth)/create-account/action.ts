@@ -6,9 +6,9 @@ import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
 
-const passwordRegex = new RegExp(/.*\d.*/);
-
-const checkEmail = (email: string) => email.includes("@zod.com");
+const passwordRegex = new RegExp(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?`~\-]).*$/
+);
 
 const checkPasswords = ({
   password,
@@ -20,7 +20,7 @@ const checkPasswords = ({
 
 const formSchema = z
   .object({
-    email: z.string().refine(checkEmail, "Only @zod.com emails are allowed"),
+    email: z.string().email(),
     username: z
       .string()
       .min(5, "Username should be at least 5 characters long")
@@ -31,14 +31,14 @@ const formSchema = z
       .min(10, "Password should be at least 10 characters long")
       .regex(
         passwordRegex,
-        "Password should contain at least one number (0123456789)"
+        "Password must include at least one uppercase, lowercase, digit, and special character"
       ),
     confirm_password: z
       .string()
       .min(10, "Password should be at least 10 characters long")
       .regex(
         passwordRegex,
-        "Password should contain at least one number (0123456789)"
+        "Password must include at least one uppercase, lowercase, digit, and special character"
       ),
   })
   .superRefine(async ({ username }, ctx) => {

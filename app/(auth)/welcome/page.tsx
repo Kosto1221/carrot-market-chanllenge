@@ -1,24 +1,27 @@
 import Link from "next/link";
 import "@/lib/db";
 import Image from "next/image";
+import Slider from "@/components/slider";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen p-6 w-full">
-      <div className="my-auto flex flex-col items-center gap-2 *:font-medium w-4/5">
-        <h1 className="text-4xl">5959</h1>
-        <h2 className="text-2xl">subtitle</h2>
+    <div className="flex flex-col items-center justify-between min-h-screen p-6 w-full  bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
+      <div className="my-auto flex flex-col items-center gap-2 *:font-extrabold w-full text-[100px]">
+        honey chat
       </div>
-      <div className="flex flex-col items-center gap-3 w-full">
-        <Link href="/create-account" className="primary-btn py-2.5 text-lg">
+      <div className="flex items-center gap-3 w-full mb-20 mt-10">
+        <Link
+          href="/create-account"
+          className="w-full py-2 text-lg h-6 text-white bg-transparent border-white border box-content rounded-full flex justify-center items-center"
+        >
           시작하기
         </Link>
-        <div className="flex gap-2">
-          <span>이미 계정이 있나요?</span>
-          <Link href="/login" className="hover:underline _underline-offset-4">
-            로그인
-          </Link>
-        </div>
+        <Link
+          href="/login"
+          className="w-full py-2 text-lg h-6 bg-yellow-400 rounded-full flex justify-center items-center box-content text-black"
+        >
+          로그인
+        </Link>
       </div>
     </div>
   );

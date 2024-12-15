@@ -1,11 +1,10 @@
 import { formatToTimeAgo } from "@/lib/utils";
 import {
-  ChatBubbleOvalLeftEllipsisIcon,
   ChatBubbleOvalLeftIcon,
+  EyeIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
-import { create } from "domain";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,12 +12,16 @@ interface ListTweetProps {
   id: number;
   title: string;
   description: string;
-  Likes: object[];
   created_at: Date;
   photo: string | null;
+  views: number;
   user: {
     username: string;
     avatar: string | null;
+  };
+  _count: {
+    likes: number;
+    responses: number;
   };
 }
 
@@ -27,22 +30,23 @@ export default function ListTweet({
   title,
   photo,
   description,
-  Likes,
   created_at,
   user,
+  views,
+  _count: { likes, responses },
 }: ListTweetProps) {
   return (
     <Link
       href={`/tweets/${id}`}
-      className="flex  justify-between h-48 bg-white rounded-md border border-neutral-100 shadow-sm p-5 w-full gap-4"
+      className="flex justify-between h-52 bg-amber-50 rounded-md border border-neutral-100 shadow-sm p-5 w-full gap-4"
     >
-      <div className="flex flex-col justify-between w-3/5">
+      <div className="flex flex-col justify-between flex-1 break-all gap-2">
         <div className="flex gap-2 items-center">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <div className="relative w-9 h-9 rounded-full overflow-hidden border flex justify-center">
             {user.avatar !== null ? (
-              <Image src={user.avatar} alt={user.username} fill />
+              <Image src={`${user.avatar}/avatar`} alt={user.username} fill />
             ) : (
-              <UserIcon className="size-10 m-auto text-gray-500" />
+              <UserIcon className="size-9 m-auto text-gray-500" />
             )}
           </div>
           <div>
@@ -52,18 +56,22 @@ export default function ListTweet({
             </div>
           </div>
         </div>
-        <div className="flex flex-col  *:text-neutral-500 ">
-          <div className="text-lg font-semibold">{title}</div>
-          <div className=" break-words line-clamp-2">{description}</div>
+        <div className="flex flex-col  *:text-neutral-500 leading-tight gap-1">
+          <div className="font-extrabold text-base line-clamp-2">{title}</div>
+          <div className="line-clamp-2 text-sm">{description}</div>
         </div>
-        <div className="flex items-center text-sm gap-4">
+        <div className="flex items-center text-xs gap-4">
           <div className="flex items-center gap-1">
-            <HeartIcon className="size-5" />
-            <div className="relative top-[-1px]">12</div>
+            <EyeIcon className="size-4" />
+            <div className="relative top-[-1px]">{views}</div>
           </div>
           <div className="flex items-center gap-1">
-            <ChatBubbleOvalLeftIcon className="size-5" />
-            <div className="relative top-[-1px]">77</div>
+            <HeartIcon className="size-4" />
+            <div className="relative top-[-1px]">{likes}</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <ChatBubbleOvalLeftIcon className="size-4" />
+            <div className="relative top-[-1px]">{responses}</div>
           </div>
         </div>
       </div>
@@ -71,7 +79,7 @@ export default function ListTweet({
         <div className="relative w-28 h-full rounded-md overflow-hidden border border-neutral-100 ">
           <Image
             fill
-            src={`${photo}/avatar`}
+            src={`${photo}/public`}
             className="object-cover"
             alt={title}
           />

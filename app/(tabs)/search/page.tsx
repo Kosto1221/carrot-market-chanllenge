@@ -1,18 +1,8 @@
 import Header from "@/components/header";
-import TweetList from "@/components/tweet-list";
+import Search from "@/components/search";
 import db from "@/lib/db";
-import {
-  BookmarkIcon,
-  MagnifyingGlassCircleIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import {
-  Bars2Icon,
-  Bars3Icon,
-  ServerStackIcon,
-} from "@heroicons/react/24/solid";
+import TweetList from "@/components/tweet-list";
 import { Prisma } from "@prisma/client";
-import Link from "next/link";
 
 async function getInitialTweets(userId?: number, query?: string) {
   const tweets = await db.tweet.findMany({
@@ -57,18 +47,30 @@ async function getInitialTweets(userId?: number, query?: string) {
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
-export default async function Tweets() {
-  const initialTweets = await getInitialTweets();
+export default async function SearchPage(props: {
+  searchParams?: Promise<{ query?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+  const initialTweets = await getInitialTweets(undefined, query);
   return (
     <div className="pb-16 min-h-screen bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
-      <Header text="Tweets">
-        <Link href="/search">
-          <MagnifyingGlassIcon className="h-7 w-7 text-white" />
-        </Link>
-        <BookmarkIcon className="h-7 w-7" />
+      <Header>
+        <Search placeholder="Search" />
       </Header>
-      <div className="pt-20 p-5">
-        <TweetList initialTweets={initialTweets} />
+      <div className="pt-24 p-5 min-h-screen flex w-full flex-1 justify-center flex-shrink-0 flex-grow">
+        {query && initialTweets.length > 0 ? (
+          <TweetList
+            key={query}
+            initialTweets={initialTweets}
+            userId={undefined}
+            query={query}
+          />
+        ) : (
+          <div className="flex items-center justify-center flex-1">
+            <div className="font-extrabold text-2xl">Not Found</div>
+          </div>
+        )}
       </div>
     </div>
   );

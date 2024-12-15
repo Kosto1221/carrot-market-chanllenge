@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
 }
 
 model User {
@@ -15,8 +15,11 @@ model User {
   bio String?
   avatar String? 
   password String
-  Tweets Tweet[]
-  Likes Like[]
+  tweets Tweet[]
+  likes Like[]
+  responses Response[]
+  subscriptions Subscription[] @relation("UserSubscriptions")
+  subscribers Subscription[] @relation("UserSubscribers") 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -26,20 +29,43 @@ model Tweet {
   title String
   photo String?
   description String
-  Likes Like[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  views Int @default(0)
+  likes Like[]
+  responses Response[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  @@index([userId])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Response {
+  id Int @id @default(autoincrement())
+  payload String
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Like {
-  id Int @id @default(autoincrement())
-  created_at DateTime @default(now())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
   tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
   tweetId Int
-  @@index([userId, tweetId]) 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  @@id(name: "id", [userId, tweetId])
 }
+
+model Subscription {
+  id Int @id @default(autoincrement())
+  subscriber User @relation("UserSubscriptions", fields: [subscriberId], references: [id], onDelete: Cascade)
+  subscriberId Int
+  subscribedTo User @relation("UserSubscribers", fields: [subscribedToId], references: [id], onDelete: Cascade)
+  subscribedToId Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+

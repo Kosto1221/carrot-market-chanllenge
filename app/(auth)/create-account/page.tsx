@@ -16,7 +16,7 @@ import "@/lib/db";
 export default function LogIn() {
   const [state, dispatch] = useActionState(createAccount, null);
   return (
-    <div className="flex flex-col justify-center gap-3 py-8 px-6 w-full min-h-screen">
+    <div className="flex flex-col justify-center gap-3 py-8 px-6 w-full min-h-screen  bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
       <form action={dispatch} className="flex flex-col gap-3">
         <Input
           name="email"

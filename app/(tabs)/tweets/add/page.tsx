@@ -5,7 +5,8 @@ import Input from "@/components/input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { getUploadUrl, uploadTweet } from "./actions";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
+import Header from "@/components/header";
 
 export default function AddTweet() {
   const [preview, setPreview] = useState("");
@@ -39,7 +40,6 @@ export default function AddTweet() {
       method: "post",
       body: cloudflareForm,
     });
-    console.log(await response.text());
     if (response.status !== 200) {
       return;
     }
@@ -47,13 +47,17 @@ export default function AddTweet() {
     formData.set("photo", photoUrl);
     return uploadTweet(_, formData);
   };
-  const [state, action] = useFormState(interceptAction, null);
+  const [state, dispatch] = useActionState(interceptAction, null);
   return (
-    <div className="min-h-screen">
-      <form action={action} className="p-5 flex flex-col gap-5">
+    <div className="min-h-screen h-full pb-16 flex flex-col bg-gradient-to-l from-amber-500 via-amber-400 to-amber-300">
+      <Header />
+      <form
+        action={dispatch}
+        className="pt-20 p-5 flex flex-col gap-5 flex-grow"
+      >
         <label
           htmlFor="photo"
-          className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
+          className="border-2 flex flex-grow items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover bg-amber-50"
           style={{
             backgroundImage: `url(${preview})`,
           }}
@@ -68,6 +72,7 @@ export default function AddTweet() {
             </>
           ) : null}
         </label>
+
         <input
           onChange={onImageChange}
           type="file"
@@ -76,6 +81,7 @@ export default function AddTweet() {
           accept="image/*"
           className="hidden"
         />
+        <label className="text-xs -mb-4 text-neutral-500">Title</label>
         <Input
           name="title"
           required
@@ -83,6 +89,7 @@ export default function AddTweet() {
           type="text"
           errors={state?.fieldErrors.title}
         />
+        <label className="text-xs -mb-4 text-neutral-500">Description</label>
         <Input
           name="description"
           type="text"
