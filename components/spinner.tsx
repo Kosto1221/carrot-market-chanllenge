@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// Define styles using CSSProperties to ensure correct typings
 const styleContainer: React.CSSProperties = {
   position: "relative",
   width: 30,

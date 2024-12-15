@@ -18,7 +18,6 @@ export default function TweetList({
   query,
 }: TweetListProps) {
   const [tweets, setTweets] = useState(initialTweets);
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
   const trigger = useRef<HTMLSpanElement>(null);
@@ -31,7 +30,6 @@ export default function TweetList({
         const element = entries[0];
         if (element.isIntersecting && trigger.current) {
           observer.unobserve(trigger.current);
-          setIsLoading(true);
           const newTweets = await getMoreTweets(page + 1, userId, query);
           if (newTweets.length !== 0) {
             setPage((prev) => prev + 1);
@@ -39,7 +37,6 @@ export default function TweetList({
           } else {
             setIsLastPage(true);
           }
-          setIsLoading(false);
         }
       },
       {

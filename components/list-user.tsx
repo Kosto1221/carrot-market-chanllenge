@@ -1,9 +1,4 @@
 import { formatToTimeAgo } from "@/lib/utils";
-import {
-  ChatBubbleOvalLeftIcon,
-  EyeIcon,
-  HeartIcon,
-} from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,9 +18,6 @@ export default function ListUser({
   avatar,
   created_at,
   username,
-  tweets,
-  subscriptions,
-  subscribers,
 }: ListUserProps) {
   return (
     <Link

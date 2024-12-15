@@ -11,13 +11,13 @@ const passwordRegex = new RegExp(/.*\d.*/);
 
 const checkEmail = (email: string) => email.includes("@zod.com");
 
-const checkPasswords = ({
-  password,
-  confirm_password,
-}: {
-  password: string;
-  confirm_password: string;
-}) => password === confirm_password;
+// const checkPasswords = ({
+//   password,
+//   confirm_password,
+// }: {
+//   password: string;
+//   confirm_password: string;
+// }) => password === confirm_password;
 
 const formSchema = z
   .object({
@@ -64,7 +64,6 @@ const formSchema = z
       ),
   })
   .superRefine(async (data, ctx) => {
-    // Validate username if provided
     if (data.username) {
       const existingUser = await db.user.findUnique({
         where: { username: data.username },
@@ -77,8 +76,6 @@ const formSchema = z
         });
       }
     }
-
-    // Validate email if provided
     if (data.email) {
       const existingUser = await db.user.findUnique({
         where: { email: data.email },
@@ -91,8 +88,6 @@ const formSchema = z
         });
       }
     }
-
-    // Check password and confirm_password match only if both are provided
     if (
       data.password &&
       data.confirm_password &&

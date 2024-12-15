@@ -33,17 +33,17 @@ export async function dislikeTweet(tweetId: number) {
   } catch (e) {}
 }
 
-const passwordRegex = new RegExp(/.*\d.*/);
+// const passwordRegex = new RegExp(/.*\d.*/);
 
-const checkEmail = (email: string) => email.includes("@zod.com");
+// const checkEmail = (email: string) => email.includes("@zod.com");
 
-const checkPasswords = ({
-  password,
-  confirm_password,
-}: {
-  password: string;
-  confirm_password: string;
-}) => password === confirm_password;
+// const checkPasswords = ({
+//   password,
+//   confirm_password,
+// }: {
+//   password: string;
+//   confirm_password: string;
+// }) => password === confirm_password;
 
 const payloadSchema = z.string().min(10).max(2000);
 

@@ -1,27 +1,17 @@
 "use client";
 
 import {
-  HomeIcon as SolidHomeIcon,
   ChatBubbleOvalLeftEllipsisIcon as SolidChatBubbleOvalLeftEllipsisIcon,
-  UserIcon as SolidUserIcon,
   PlusIcon as SolidPlusIcon,
-  FolderPlusIcon as SolidFolderPlusIcon,
-  GlobeAltIcon as SolidGlobeAltIcon,
   GlobeAsiaAustraliaIcon as SolidGlobeAsiaAustraliaIcon,
   UserGroupIcon as SolidUserGroupIcon,
-  UsersIcon as SolidUsersIcon,
 } from "@heroicons/react/24/solid";
 import {
   UserIcon,
-  HomeIcon as OutlineHomeIcon,
   ChatBubbleOvalLeftEllipsisIcon as OutlineChatBubbleOvalLeftEllipsisIcon,
-  UserIcon as OutlineUserIcon,
   PlusIcon as OutlinePlusIcon,
-  FolderPlusIcon as OutlineFolderPlusIcon,
-  GlobeAltIcon as OutlineGlobeAltIcon,
   GlobeAsiaAustraliaIcon as OutlineGlobeAsiaAustraliaIcon,
   UserGroupIcon as OutlineUserGroupIcon,
-  UsersIcon as OutlineUsersIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

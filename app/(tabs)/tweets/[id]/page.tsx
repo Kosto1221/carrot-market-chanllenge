@@ -19,10 +19,10 @@ async function getIsOwner(userId: number) {
   return false;
 }
 
-async function onReturn() {
-  "use server";
-  redirect("/");
-}
+// async function onReturn() {
+//   "use server";
+//   redirect("/");
+// }
 
 async function getTweet(id: number) {
   try {

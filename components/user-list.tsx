@@ -13,7 +13,6 @@ interface UserListProps {
 
 export default function UserList({ initialUsers }: UserListProps) {
   const [users, setUsers] = useState(initialUsers);
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
   const trigger = useRef<HTMLSpanElement>(null);
@@ -26,7 +25,6 @@ export default function UserList({ initialUsers }: UserListProps) {
         const element = entries[0];
         if (element.isIntersecting && trigger.current) {
           observer.unobserve(trigger.current);
-          setIsLoading(true);
           const newusers = await getMoreUsers(page + 1);
           if (newusers.length !== 0) {
             setPage((prev) => prev + 1);
@@ -34,7 +32,6 @@ export default function UserList({ initialUsers }: UserListProps) {
           } else {
             setIsLastPage(true);
           }
-          setIsLoading(false);
         }
       },
       {
