@@ -93,12 +93,10 @@ async function getCachedLikeStatus(tweetId: number) {
 export default async function TweetDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
-  if (isNaN(id)) {
-    return notFound();
-  }
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   const tweet = await getCachedTweet(id);
   if (!tweet) {
     return notFound();
