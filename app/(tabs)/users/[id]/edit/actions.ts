@@ -102,12 +102,6 @@ const formSchema = z
   });
 
 export async function editUser(userId: number, formData: FormData) {
-  const user = await db.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
   const data = {
     username: formData.get("username"),
     avatar: formData.get("avatar"),

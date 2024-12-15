@@ -49,7 +49,7 @@ export default function TweetList({
     return () => {
       observer.disconnect();
     };
-  }, [page, query]);
+  }, [page, query, userId]);
   return (
     <div className="flex flex-col gap-3">
       {tweets.map((tweet) => (

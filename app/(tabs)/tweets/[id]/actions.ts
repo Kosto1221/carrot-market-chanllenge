@@ -7,30 +7,26 @@ import { z } from "zod";
 
 export async function likeTweet(tweetId: number) {
   const session = await getSession();
-  try {
-    await db.like.create({
-      data: {
-        tweetId,
-        userId: session.id!,
-      },
-    });
-    revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {}
+  await db.like.create({
+    data: {
+      tweetId,
+      userId: session.id!,
+    },
+  });
+  revalidateTag(`like-status-${tweetId}`);
 }
 
 export async function dislikeTweet(tweetId: number) {
-  try {
-    const session = await getSession();
-    await db.like.delete({
-      where: {
-        id: {
-          tweetId,
-          userId: session.id!,
-        },
+  const session = await getSession();
+  await db.like.delete({
+    where: {
+      id: {
+        tweetId,
+        userId: session.id!,
       },
-    });
-    revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {}
+    },
+  });
+  revalidateTag(`like-status-${tweetId}`);
 }
 
 // const passwordRegex = new RegExp(/.*\d.*/);

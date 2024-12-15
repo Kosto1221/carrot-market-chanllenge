@@ -5,7 +5,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
-import { redirect } from "next/navigation";
 import ResponseModal from "@/components/response-modal";
 import { unstable_cache as nextCache } from "next/cache";
 import LikeButton from "@/components/like-button";
@@ -25,34 +24,30 @@ async function getIsOwner(userId: number) {
 // }
 
 async function getTweet(id: number) {
-  try {
-    const tweet = await db.tweet.update({
-      where: {
-        id,
+  const tweet = await db.tweet.update({
+    where: {
+      id,
+    },
+    data: {
+      views: {
+        increment: 1,
       },
-      data: {
-        views: {
-          increment: 1,
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+          avatar: true,
         },
       },
-      include: {
-        user: {
-          select: {
-            username: true,
-            avatar: true,
-          },
-        },
-        _count: {
-          select: {
-            responses: true,
-          },
+      _count: {
+        select: {
+          responses: true,
         },
       },
-    });
-    return tweet;
-  } catch (e) {
-    return null;
-  }
+    },
+  });
+  return tweet;
 }
 
 async function getResponses(tweetId: number) {
@@ -117,8 +112,6 @@ export default async function TweetDetail({
   if (!tweet) {
     return notFound();
   }
-  // for delete
-  const isOwner = await getIsOwner(tweet.userId);
 
   const { likeCount, isLiked } = await getCachedLikeStatus(id);
 
