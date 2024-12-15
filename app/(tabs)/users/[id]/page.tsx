@@ -60,11 +60,13 @@ async function getInitialTweets(userId?: number, query?: string) {
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
-export default async function Profile({ params }: { params: { id: number } }) {
-  const id = Number(params.id);
-  if (isNaN(id)) {
-    return notFound();
-  }
+export default async function Profile({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   const user = await getUser();
   const initialTweets = await getInitialTweets(id);
   const GoEdit = async () => {
